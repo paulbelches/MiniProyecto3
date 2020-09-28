@@ -9,13 +9,6 @@ def generarTiempo(t, l): # los eventos serán solamente procesos de poisson no h
 def simulation(serverNumber, request):
     
     def smaller(array):
-        """
-        pos, value = 0, inf
-        for i in range(serverNumber):
-            if (array[i] < value):
-                value = array[i]
-                pos = i
-        """
         pos = array.index(min(array))
         return pos
 
@@ -38,8 +31,6 @@ def simulation(serverNumber, request):
         posTa = smaller(ta)
         posTd = smaller(td)
         if (ta[posTa] <= td[posTd] and ta[posTa] <= T): # La siguiente operacion que atendemos es una llegada
-            print(ta, td, posTa, posTd, n, t)
-            print("Entre 1")
             #Move pointer
             t = ta[posTa]
             #Counters
@@ -51,8 +42,6 @@ def simulation(serverNumber, request):
                 td[posTa] = t + np.random.exponential(1/request)
             A[posTa].append(t) #Tiempo de llegada de la solicitud
         if (td[posTd] <= ta[posTa] and td[posTd] <= T): #Attending exit case
-            print(ta, td, posTa, posTd, n)
-            print("Entre 2")
             #Move pointer
             t = td[posTd]
             #Counters
@@ -66,10 +55,6 @@ def simulation(serverNumber, request):
             #print(t, td, ta)
             D[posTd].append(t) #Tiempo de salida de la solicitud
         if (min(ta[posTa],td[posTd])>T and n[posTa if ta[posTa] < td[posTd] else posTd] > 0):
-            print(ta, td, posTa, posTd, n)
-            print("Entre 3")
-            #print(len(A))
-            #print(len(D))
             t = td[posTa if ta[posTa] < td[posTd] else posTd]
             Nd+=1
             n[posTa if ta[posTa] < td[posTd] else posTd]-=1
@@ -77,8 +62,6 @@ def simulation(serverNumber, request):
                 td[posTa if ta[posTa] < td[posTd] else posTd] = t + np.random.exponential(1/request)
             D[posTa if ta[posTa] < td[posTd] else posTd].append(t)#Tiempo de salida de la solicitud
         if (min(ta[posTa], td[posTd]) > T and sum(n) == 0): 
-            print(ta, td, posTa, posTd, n)
-            print("Entre 4")
             Tp = max(t - T, 0)
             flag = False
     return A, D
