@@ -66,17 +66,19 @@ def simulation(serverNumber, request):
             flag = False
     return A, D
 
-A,D = simulation(4,100)
+ServerAmount= 4
+A,D = simulation(ServerAmount,100)
 
 print(len(A))
 for i in range(len(A)):
     print(A[i][0],A[i][-1], len(A[i]))
+print("El otro")
 for i in range(len(D)):
     print(D[i][0],D[i][-1], len(D[i]))
 
 #print(D[1][0],D[1][-1])
 #print(D[0],D[-1])
-"""
+
 def info(listArrival,listDeparture):
     canti=len(listArrival)
     ocup=0
@@ -96,8 +98,8 @@ def info(listArrival,listDeparture):
     colasec=1/espprom
     return canti,ocup,libre,cola,espprom,colasec,us
 
+for i in range(ServerAmount):
+    canti,ocup,libre,cola,espprom,colasec,us=info(A[i],D[i])
+    print("El servidor de Gorilla Megacomputing atendio ",canti, " solicitudes, paso ocupado ",ocup," segundos y desocupado ",libre," segundos. \n Las solicitudes estuvieron en total ",cola, " segundos en cola, lo cual nos da un promedio de ",espprom, " segundos por solicitud. \n Cada segundo hubo ",colasec," solicitudes en cola.\n El momento de salida de la ultima solicitud fue en el segundo: ",us)    
 
-canti,ocup,libre,cola,espprom,colasec,us=info(A,D)
-print("El servidor de Gorilla Megacomputing atendio ",canti, " solicitudes, paso ocupado ",ocup," segundos y desocupado ",libre," segundos. \n Las solicitudes estuvieron en total ",cola, " segundos en cola, lo cual nos da un promedio de ",espprom, " segundos por solicitud. \n Cada segundo hubo ",colasec," solicitudes en cola.\n El momento de salida de la ultima solicitud fue en el segundo: ",us)    
-"""
 
