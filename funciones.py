@@ -9,18 +9,19 @@ def generarTiempo(t, l): # los eventos serán solamente procesos de poisson no h
 def simulation(serverNumber, request):
     
     def smaller(array):
+        """
         pos, value = 0, inf
         for i in range(serverNumber):
             if (array[i] < value):
                 value = array[i]
                 pos = i
+        """
+        pos = array.index(min(array))
         return pos
 
     LAMBDA = 40 # Quien llega
     T = 600
     t = Na = Nd = 0 #t es por donde vamos
-    ta = generarTiempo(0, LAMBDA) #arrival
-    td = inf #departure
     D = []
     A = []
     td = [] #departure
@@ -82,7 +83,7 @@ def simulation(serverNumber, request):
             flag = False
     return A, D
 
-A,D = simulation(1,100)
+A,D = simulation(4,100)
 
 print(len(A))
 for i in range(len(A)):
@@ -92,7 +93,7 @@ for i in range(len(D)):
 
 #print(D[1][0],D[1][-1])
 #print(D[0],D[-1])
-
+"""
 def info(listArrival,listDeparture):
     canti=len(listArrival)
     ocup=0
@@ -115,5 +116,5 @@ def info(listArrival,listDeparture):
 
 canti,ocup,libre,cola,espprom,colasec,us=info(A,D)
 print("El servidor de Gorilla Megacomputing atendio ",canti, " solicitudes, paso ocupado ",ocup," segundos y desocupado ",libre," segundos. \n Las solicitudes estuvieron en total ",cola, " segundos en cola, lo cual nos da un promedio de ",espprom, " segundos por solicitud. \n Cada segundo hubo ",colasec," solicitudes en cola.\n El momento de salida de la ultima solicitud fue en el segundo: ",us)    
-
+"""
 
