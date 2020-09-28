@@ -76,7 +76,7 @@ def simulation(serverNumber, request):
 ServerAmount= 10
 A,D = simulation(ServerAmount,10)
 #print(len(A))
-total = 0
+#total = 0
 """
 for i in range(len(A)):
     print(A[i][0],A[i][-1], len(A[i]))
