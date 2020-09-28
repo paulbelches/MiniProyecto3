@@ -6,14 +6,14 @@ def generarTiempo(t, l): # los eventos serán solamente procesos de poisson no h
         t = t - (np.log(np.random.uniform())/l)
         if np.random.uniform() <= np.random.poisson(t)/l:
             return t
+
 def simulation(serverNumber, request):
-    
     def smaller(array):
         pos = array.index(min(array))
         return pos
 
     LAMBDA = 40 # Quien llega
-    T = 600
+    T = 60
     t = Na = Nd = 0 #t es por donde vamos
     D = []
     A = []
@@ -24,15 +24,15 @@ def simulation(serverNumber, request):
         D.append([])
         A.append([])
         n.append(0)
-        ta.append(generarTiempo(0, LAMBDA))
+        ta.append(0)
         td.append(inf)
     flag = True
     while (flag):
-        posTa = smaller(ta)
-        posTd = smaller(td)
+        posTa = ta.index(min(ta))
+        posTd = td.index(min(td))
         if (ta[posTa] <= td[posTd] and ta[posTa] <= T): # La siguiente operacion que atendemos es una llegada
             #Move pointer
-            t = ta[posTa]
+            t = ta[ta.index(max(ta))] #Último tiempo de llegada
             #Counters
             Na+=1
             n[posTa]+= 1
