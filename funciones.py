@@ -66,8 +66,8 @@ def simulation(serverNumber, request):
             flag = False
     return A, D
 
-ServerAmount= 4
-A,D = simulation(ServerAmount,100)
+ServerAmount= 2
+A,D = simulation(ServerAmount,10)
 
 print(len(A))
 for i in range(len(A)):
