@@ -55,3 +55,27 @@ while (flag):
         Tp = max(t - T, 0)
         flag = False
 
+def info(listArrival,listDeparture):
+    canti=len(listArrival)
+    ocup=0
+    for i in range(canti):
+        ocup=ocup+listDeparture[i]-listArrival[i]
+    us=listDeparture[(canti-1)]
+    libre=0
+    cola=0
+    for j in range(canti-1):
+        if (listDeparture[j]>listArrival[j+1]):
+            dif=listDeparture[j]-listArrival[j+1]
+            cola=cola+dif
+        elif (listDeparture[j]<listArrival[j+1]):
+            dif=listArrival[j+1]-listDeparture[j]
+            libre=libre+dif
+    espprom=cola/canti
+    colasec=1/espprom
+    return canti,ocup,libre,cola,espprom,colasec,us
+
+
+canti,ocup,libre,cola,espprom,colasec,us=info(A,D)
+print("El servidor de Gorilla Megacomputing atendio ",canti, " solicitudes, paso ocupado ",ocup," segundos y desocupado ",libre," segundos. \n Las solicitudes estuvieron en total ",cola, " segundos en cola, lo cual nos da un promedio de ",espprom, " segundos por solicitud. \n Cada segundo hubo ",colasec," solicitudes en cola.\n El momento de salida de la ultima solicitud fue en el segundo: ",us)    
+
+
