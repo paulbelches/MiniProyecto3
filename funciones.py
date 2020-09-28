@@ -2,13 +2,14 @@ from math import *
 import numpy as np
 
 LAMBDA = 40 # Quien llega
-LAMBDA2 = 100 #Cuanto se tarda
 
+def generarTiempo(t, l): # los eventos serán solamente procesos de poisson no homogeneos, así que se programa solo para eso 
+    while True:
+        t = t - (np.log(np.random.uniform())/l)
+        if np.random.uniform() <= np.random.poisson(t)/l:
+            return t
 
-def generarTiempo(s, l): 
-    return s-(1/l) * log(np.random.rand())
-
-T = 1
+T = 3600
 t = Na = Nd = n = 0 #t es por donde vamos
 ta = generarTiempo(0, LAMBDA) #arrival
 td = inf #departure
@@ -16,7 +17,7 @@ D = []
 A = []
 flag = True
 while (flag):
-    #print(t)
+    #print(ta, td, ta <= td, td <= ta, n)
     if (ta <= td and ta <= T): # La siguiente operacion que atendemos es una llegada
         #Move pointer
         t = ta
@@ -26,35 +27,31 @@ while (flag):
         #Generate next
         ta = generarTiempo(t, LAMBDA)
         if (n == 1):
-            y = generarTiempo(t, LAMBDA2)
-            td = t + y
+            td = t + np.random.exponential(1/100)
         A.append(t) #Tiempo de llegada de la solicitud
-    elif (td <= ta and td<= T): #Attending exit case
+    if (td <= ta and td <= T): #Attending exit case
         #Move pointer
         t = td
         #Counters
         Nd+=1
         n-=1
         #Last element in list
-        if (n == 1):
+        if (n == 0):
             td = inf
         else:
-            y = generarTiempo(t, LAMBDA2)
-            td = t + y
+            td = t + np.random.exponential(1/100)
         #print(t, td, ta)
         D.append(t) #Tiempo de salida de la solicitud
-    elif (min(ta,td)>T and n > 0):
+    if (min(ta,td)>T and n > 0):
+        #print(len(A))
+        #print(len(D))
         t = td
         Nd+=1
         n-=1
         if (n > 0):
-            y = generarTiempo(t, LAMBDA2)
-            td = t + y
+            td = t + np.random.exponential(1/100)
         D.append(t)#Tiempo de salida de la solicitud
-    elif (min(ta, td) > T and n == 0): 
+    if (min(ta, td) > T and n == 0): 
         Tp = max(t - T, 0)
         flag = False
 
-print(t)
-print(A)
-print(D)
