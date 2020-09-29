@@ -2,9 +2,8 @@ from math import *
 import numpy as np
 
 def generarTiempo(t, l): 
-    while True:
-        t = t - (np.log(np.random.uniform())/l)
-        return t
+    t = t - (np.log(np.random.uniform())/l)
+    return t
 
 def simulation(serverNumber, request, LAMBDA):
     T = 3600
