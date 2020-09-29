@@ -7,8 +7,7 @@ def generarTiempo(t, l):
         if np.random.uniform() <= np.random.poisson(t)/l:
             return t
 
-def simulation(serverNumber, request):
-    LAMBDA = 40 # Quien llega
+def simulation(serverNumber, request, LAMBDA):
     T = 3600
     t = Na = Nd = 0 #t es por donde vamos
     D = []
@@ -44,7 +43,7 @@ def simulation(serverNumber, request):
             #Generate next
             ta[posTa] = generarTiempo(t, LAMBDA)
             if (n[posTa] == 1):
-                td[posTa] = t + np.random.exponential(1/request)
+                td[posTa] = t - (1/request)*np.log(np.random.uniform())
             A[posTa].append(t) #Tiempo de llegada de la solicitud
         elif (td[posTd] <= ta[posTa] and td[posTd] <= T): #Attending exit case
             #Move pointer
@@ -56,7 +55,7 @@ def simulation(serverNumber, request):
             if (n[posTd] == 0):
                 td[posTd] = inf
             else:
-                td[posTd] = t + np.random.exponential(1/request)
+                td[posTd] = t - (1/request)*np.log(np.random.uniform())
             #print(t, td, ta)
             D[posTd].append(t) #Tiempo de salida de la solicitud
         elif (min(ta[posTa],td[posTd]) > T and sum(n) > 0):
@@ -66,16 +65,13 @@ def simulation(serverNumber, request):
             Nd+=1
             n[pos]-=1
             if (n[pos] > 0):
-                td[pos] = t + np.random.exponential(1/request)
+                td[pos] = t - (1/request)*np.log(np.random.uniform())
             D[pos].append(t)#Tiempo de salida de la solicitud
         elif (min(ta[posTa], td[posTd]) > T and sum(n) == 0): 
             Tp = max(t - T, 0)
             flag = False
     return A, D
 
-ServerAmount= 10
-A,D = simulation(ServerAmount,10)
-Ag,Dg= simulation(1,100)
 
 #print(len(A))
 #total = 0
@@ -115,7 +111,29 @@ def info(listArrival,listDeparture,val=True):
     else: 
         colasec=0
     return canti,ocup,libre,cola,espprom,colasec,us
-    
+
+
+def cantidadNecesaria(LAMBDA):  
+    flag=True
+    cont=1
+    while(flag==True):
+        A,D = simulation(cont,10,LAMBDA)
+        for i in range(cont):
+            canti,ocup,libre,cola,espprom,colasec,us=info(A[i],D[i],False)
+            #print(espprom)
+            if(round(espprom,10)==0):
+                flag=False
+                cantidad=len(A)
+            else:
+                cont+=1
+    print("Se necesitan ", cantidad, " servidores")
+
+#Task 1   
+ServerAmount= 10
+LAMBDA=40
+A,D = simulation(ServerAmount,10,LAMBDA)
+Ag,Dg= simulation(1,100,LAMBDA)
+
 canti,ocup,libre,cola,espprom,colasec,us=info(Ag[0],Dg[0])
 print("El servidor de Gorilla Megaomputing atendio ",canti, " solicitudes, paso ocupado ",ocup," segundos y desocupado ",libre," segundos. \n Las solicitudes estuvieron en total ",cola, " segundos en cola, lo cual nos da un promedio de ",espprom, " segundos por solicitud. \n Cada segundo en promedio hubo ",colasec," solicitudes en cola.\n El momento de salida de la ultima solicitud fue en el segundo: ",us)   
 
@@ -123,16 +141,21 @@ for i in range(ServerAmount):
     canti,ocup,libre,cola,espprom,colasec,us=info(A[i],D[i])
     print("El servidor ", str(i+1), " de Ants Smart Computing atendio ",canti, " solicitudes, paso ocupado ",ocup," segundos y desocupado ",libre," segundos. \n Las solicitudes estuvieron en total ",cola, " segundos en cola, lo cual nos da un promedio de ",espprom, " segundos por solicitud. \n Cada segundo en promedio hubo ",colasec," solicitudes en cola.\n El momento de salida de la ultima solicitud fue en el segundo: ",us)   
 
-flag=True
-cont=1
-while(flag==True):
-    A,D = simulation(cont,10)
-    for i in range(cont):
-        canti,ocup,libre,cola,espprom,colasec,us=info(A[i],D[i],False)
-        #print(espprom)
-        if(round(espprom,5)==0):
-            flag=False
-            cantidad=len(A)
-        else:
-            cont+=1
-print("Se necesitan ", cantidad, " servidores")
+#Task 2
+cantidadNecesaria(LAMBDA)
+
+#Task 3   
+ServerAmount= 10
+LAMBDA=100
+A,D = simulation(ServerAmount,10,LAMBDA)
+Ag,Dg= simulation(1,100,LAMBDA)
+
+canti,ocup,libre,cola,espprom,colasec,us=info(Ag[0],Dg[0])
+print("El servidor de Gorilla Megaomputing atendio ",canti, " solicitudes, paso ocupado ",ocup," segundos y desocupado ",libre," segundos. \n Las solicitudes estuvieron en total ",cola, " segundos en cola, lo cual nos da un promedio de ",espprom, " segundos por solicitud. \n Cada segundo en promedio hubo ",colasec," solicitudes en cola.\n El momento de salida de la ultima solicitud fue en el segundo: ",us)   
+
+for i in range(ServerAmount):
+    canti,ocup,libre,cola,espprom,colasec,us=info(A[i],D[i])
+    print("El servidor ", str(i+1), " de Ants Smart Computing atendio ",canti, " solicitudes, paso ocupado ",ocup," segundos y desocupado ",libre," segundos. \n Las solicitudes estuvieron en total ",cola, " segundos en cola, lo cual nos da un promedio de ",espprom, " segundos por solicitud. \n Cada segundo en promedio hubo ",colasec," solicitudes en cola.\n El momento de salida de la ultima solicitud fue en el segundo: ",us)   
+
+#Task 4
+cantidadNecesaria(LAMBDA)
