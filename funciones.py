@@ -75,6 +75,8 @@ def simulation(serverNumber, request):
 
 ServerAmount= 10
 A,D = simulation(ServerAmount,10)
+Ag,Dg= simulation(1,100)
+
 #print(len(A))
 #total = 0
 """
@@ -91,8 +93,8 @@ print("total", total)
 """
 #print(D[1][0],D[1][-1])
 #print(D[0],D[-1])
-"""
-def info(listArrival,listDeparture):
+
+def info(listArrival,listDeparture,val=True):
     canti=len(listArrival)
     ocup=0
     for i in range(canti):
@@ -108,11 +110,29 @@ def info(listArrival,listDeparture):
             dif=listArrival[j+1]-listDeparture[j]
             libre=libre+dif
     espprom=cola/canti 
-    colasec=1/espprom 
+    if (val==True):
+        colasec=1/espprom 
+    else: 
+        colasec=0
     return canti,ocup,libre,cola,espprom,colasec,us
-"""
-"""
+    
+canti,ocup,libre,cola,espprom,colasec,us=info(Ag[0],Dg[0])
+print("El servidor de Gorilla Megaomputing atendio ",canti, " solicitudes, paso ocupado ",ocup," segundos y desocupado ",libre," segundos. \n Las solicitudes estuvieron en total ",cola, " segundos en cola, lo cual nos da un promedio de ",espprom, " segundos por solicitud. \n Cada segundo en promedio hubo ",colasec," solicitudes en cola.\n El momento de salida de la ultima solicitud fue en el segundo: ",us)   
+
 for i in range(ServerAmount):
     canti,ocup,libre,cola,espprom,colasec,us=info(A[i],D[i])
-    print("El servidor de Gorilla Megacomputing atendio ",canti, " solicitudes, paso ocupado ",ocup," segundos y desocupado ",libre," segundos. \n Las solicitudes estuvieron en total ",cola, " segundos en cola, lo cual nos da un promedio de ",espprom, " segundos por solicitud. \n Cada segundo hubo ",colasec," solicitudes en cola.\n El momento de salida de la ultima solicitud fue en el segundo: ",us)    
-"""
+    print("El servidor ", str(i+1), " de Ants Smart Computing atendio ",canti, " solicitudes, paso ocupado ",ocup," segundos y desocupado ",libre," segundos. \n Las solicitudes estuvieron en total ",cola, " segundos en cola, lo cual nos da un promedio de ",espprom, " segundos por solicitud. \n Cada segundo en promedio hubo ",colasec," solicitudes en cola.\n El momento de salida de la ultima solicitud fue en el segundo: ",us)   
+
+flag=True
+cont=1
+while(flag==True):
+    A,D = simulation(cont,10)
+    for i in range(cont):
+        canti,ocup,libre,cola,espprom,colasec,us=info(A[i],D[i],False)
+        #print(espprom)
+        if(round(espprom,5)==0):
+            flag=False
+            cantidad=len(A)
+        else:
+            cont+=1
+print("Se necesitan ", cantidad, " servidores")
