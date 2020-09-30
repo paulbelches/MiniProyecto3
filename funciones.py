@@ -2,10 +2,8 @@ from math import *
 import numpy as np
 
 def generarTiempo(t, l): 
-    while True:
-        t = t - (np.log(np.random.uniform())/l)
-        if np.random.uniform() <= np.random.poisson(t)/l:
-            return t
+    t = t - (np.log(np.random.uniform())/l)
+    return t
 
 def simulation(serverNumber, request, LAMBDA):
     T = 3600
@@ -126,9 +124,10 @@ def cantidadNecesaria(LAMBDA):
                 cantidad=len(A)
             else:
                 cont+=1
-    print("Se necesitan ", cantidad, " servidores")
+    print("Para manejar ",str(LAMBDA*60)," solicitudes por minuto y que siempre haya un servidor de Ant Smart Computing disponible, se necesitan alquilar ", cantidad, " servidores")
 
-print("Task 1")
+#Task 1   
+print("------------------------------------Task 1------------------------------------")
 ServerAmount= 10
 LAMBDA=40
 A,D = simulation(ServerAmount,10,LAMBDA)
@@ -141,10 +140,12 @@ for i in range(ServerAmount):
     canti,ocup,libre,cola,espprom,colasec,us=info(A[i],D[i])
     print("El servidor ", str(i+1), " de Ants Smart Computing atendio ",canti, " solicitudes, paso ocupado ",ocup," segundos y desocupado ",libre," segundos. \n Las solicitudes estuvieron en total ",cola, " segundos en cola, lo cual nos da un promedio de ",espprom, " segundos por solicitud. \n Cada segundo en promedio hubo ",colasec," solicitudes en cola.\n El momento de salida de la ultima solicitud fue en el segundo: ",us)   
 
-print("Task 2")
+#Task 2
+print("------------------------------------Task 2------------------------------------")
 cantidadNecesaria(LAMBDA)
 
-print("Task 3")
+#Task 3   
+print("------------------------------------Task 3------------------------------------")
 ServerAmount= 10
 LAMBDA=100
 A,D = simulation(ServerAmount,10,LAMBDA)
@@ -157,5 +158,6 @@ for i in range(ServerAmount):
     canti,ocup,libre,cola,espprom,colasec,us=info(A[i],D[i])
     print("El servidor ", str(i+1), " de Ants Smart Computing atendio ",canti, " solicitudes, paso ocupado ",ocup," segundos y desocupado ",libre," segundos. \n Las solicitudes estuvieron en total ",cola, " segundos en cola, lo cual nos da un promedio de ",espprom, " segundos por solicitud. \n Cada segundo en promedio hubo ",colasec," solicitudes en cola.\n El momento de salida de la ultima solicitud fue en el segundo: ",us)   
 
-print("Task 4")
+#Task 4
+print("------------------------------------Task 4------------------------------------")
 cantidadNecesaria(LAMBDA)
