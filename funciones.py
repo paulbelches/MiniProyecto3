@@ -93,15 +93,15 @@ def info(listArrival,listDeparture,val=True):
     return canti,ocup,libre,cola,espprom,colasec,us
 
 
-def cantidadNecesaria(LAMBDA):  
+def cantidadNecesaria(LAMBDA, potencia):  
     flag=True
     cont=1
     while(flag==True):
-        A,D = simulation(cont,10,LAMBDA)
+        A,D = simulation(cont,potencia,LAMBDA)
         for i in range(cont):
             canti,ocup,libre,cola,espprom,colasec,us=info(A[i],D[i],False)
             #print(espprom)
-            if(round(espprom,10)==0):
+            if(round(espprom,3)==0):
                 flag=False
                 cantidad=len(A)
             else:
@@ -114,7 +114,7 @@ def solicitudesNecesaria(LAMBDA, factor, vi):
     while(flag):
         A,D = simulation(1,cont * factor,LAMBDA)
         canti,ocup,libre,cola,espprom,colasec,us=info(A[0],D[0])
-        if(round(espprom,10)==0):
+        if(round(espprom,3)==0):
             flag=False
             cantidad=cont * factor
         else:
@@ -137,7 +137,8 @@ for i in range(ServerAmount):
 
 #Task 2
 print("------------------------------------Task 2------------------------------------")
-cantidadNecesaria(LAMBDA)
+cantidadNecesaria(LAMBDA, 10)
+cantidadNecesaria(LAMBDA, 100)
 solicitudesNecesaria(LAMBDA, 10000, 45)
 #Task 3   
 print("------------------------------------Task 3------------------------------------")
@@ -155,5 +156,6 @@ for i in range(ServerAmount):
 
 #Task 4
 print("------------------------------------Task 4------------------------------------")
-cantidadNecesaria(LAMBDA)
+cantidadNecesaria(LAMBDA, 10)
+cantidadNecesaria(LAMBDA, 100)
 solicitudesNecesaria(LAMBDA, 100000, 10)
