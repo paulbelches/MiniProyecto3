@@ -70,24 +70,6 @@ def simulation(serverNumber, request, LAMBDA):
             flag = False
     return A, D
 
-
-#print(len(A))
-#total = 0
-"""
-for i in range(len(A)):
-    print(A[i][0],A[i][-1], len(A[i]))
-    total+= len(A[i])
-print("total", total)
-total = 0
-print("El otro")
-for i in range(len(D)):
-    print(D[i][0],D[i][-1], len(D[i]))
-    total+= len(A[i])
-print("total", total)
-"""
-#print(D[1][0],D[1][-1])
-#print(D[0],D[-1])
-
 def info(listArrival,listDeparture,val=True):
     canti=len(listArrival)
     ocup=0
@@ -126,6 +108,19 @@ def cantidadNecesaria(LAMBDA):
                 cont+=1
     print("Para manejar ",str(LAMBDA*60)," solicitudes por minuto y que siempre haya un servidor de Ant Smart Computing disponible, se necesitan alquilar ", cantidad, " servidores")
 
+def solicitudesNecesaria(LAMBDA, factor, vi):
+    cont = vi 
+    flag=True
+    while(flag):
+        A,D = simulation(1,cont * factor,LAMBDA)
+        canti,ocup,libre,cola,espprom,colasec,us=info(A[0],D[0])
+        if(round(espprom,10)==0):
+            flag=False
+            cantidad=cont * factor
+        else:
+            cont+=1
+    print("Para manejar ",str(LAMBDA*60)," solicitudes por minuto y que el servidor de Gorilla Megaomputing Computing este siempre disponible, se necesitan alquilar un servidor que resuelva ", cantidad, " solicitudes por segundo")
+
 #Task 1   
 print("------------------------------------Task 1------------------------------------")
 ServerAmount= 10
@@ -143,7 +138,7 @@ for i in range(ServerAmount):
 #Task 2
 print("------------------------------------Task 2------------------------------------")
 cantidadNecesaria(LAMBDA)
-
+solicitudesNecesaria(LAMBDA, 10000, 45)
 #Task 3   
 print("------------------------------------Task 3------------------------------------")
 ServerAmount= 10
@@ -161,3 +156,4 @@ for i in range(ServerAmount):
 #Task 4
 print("------------------------------------Task 4------------------------------------")
 cantidadNecesaria(LAMBDA)
+solicitudesNecesaria(LAMBDA, 100000, 10)
